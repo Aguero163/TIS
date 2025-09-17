@@ -120,6 +120,15 @@ telematics_insurance_system/
 
 ## 🚀 **Quick Start (5 Minutes to Running System)**
 
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Aguero163/TIS.git
+   cd TIS
+   ```
+   ```bash
+2. pip install -r requirements.txt
+   ```
+   
 ### **🎨 OPTION 1: Demo Dashboard Only (Instant)**
 ```bash
 # Just see the UI with mock data (no setup needed)
