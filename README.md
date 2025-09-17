@@ -1,8 +1,8 @@
-# 🚗 Telematics Insurance System
+# Telematics Insurance System
 
 A complete, production-ready telematics-based auto insurance solution that accurately captures driving behavior and integrates into dynamic insurance pricing models. Features real-time data processing, advanced ML risk scoring, enterprise APIs, and comprehensive cloud infrastructure.
 
-## 🎯 **Project Overview**
+## **Project Overview**
 
 This system transforms traditional automobile insurance by moving from generalized demographic models to **real-time driving behavior assessment**. It implements usage-based insurance (UBI) models including Pay-As-You-Drive (PAYD) and Pay-How-You-Drive (PHYD) with:
 
@@ -13,11 +13,11 @@ This system transforms traditional automobile insurance by moving from generaliz
 - **Scalable cloud infrastructure** handling millions of data points
 - **Complete user dashboard** with gamification and real-time feedback
 
-## 🏗️ **System Architecture (Two-Tier Demo Design)**
+## **System Architecture (Two-Tier Demo Design)**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    🎨 FRONTEND DEMO LAYER                          │
+│                       FRONTEND DEMO LAYER                          │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐ │
 │  │ User Dashboard  │    │   Mock Data     │    │  Demo Interface │ │
 │  │ (React/HTML)    │───▶│  (Consistent)   │───▶│  (Immediate)    │ │
@@ -27,7 +27,7 @@ This system transforms traditional automobile insurance by moving from generaliz
                                    │
                                    ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                   🤖 BACKEND ML PIPELINE                           │
+│                       BACKEND ML PIPELINE                           │
 │  ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐ │
 │  │   Telematics    │───▶│  Stream Pipeline │───▶│   Data Lake     │ │
 │  │ Data Generator  │    │ (Kafka/Kinesis)  │    │   (S3/Redis)    │ │
@@ -47,27 +47,27 @@ This system transforms traditional automobile insurance by moving from generaliz
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## 🔍 **IMPORTANT: Demo Architecture Explanation**
+## **IMPORTANT: Demo Architecture Explanation**
 
-### **🎨 Frontend Dashboard (Mock Data)**
+### ** Frontend Dashboard (Mock Data)**
 - **Purpose:** Demonstrate UI/UX design and user experience
 - **Data Source:** Hardcoded mock data for consistent demo
 - **Benefits:** 
-  - ✅ Works immediately without dependencies
-  - ✅ Predictable demo experience  
-  - ✅ Shows complete user interface
-  - ✅ No need for data generation or ML training
+  - Works immediately without dependencies
+  - Predictable demo experience  
+  - Shows complete user interface
+  - No need for data generation or ML training
 
-### **🤖 Backend ML Pipeline (Real Data & Models)**
+### **Backend ML Pipeline (Real Data & Models)**
 - **Purpose:** Prove technical capability and meet assessment requirements
 - **Data Source:** Generated realistic telematics data + trained ML models
 - **Benefits:**
-  - ✅ Real ML algorithms with performance metrics
-  - ✅ Actual risk scoring capabilities
-  - ✅ Functional API endpoints
-  - ✅ Production-ready architecture
+  - Real ML algorithms with performance metrics
+  - Actual risk scoring capabilities
+  - Functional API endpoints
+  - Production-ready architecture
 
-### **🔗 Connection Between Layers**
+### **Connection Between Layers**
 ```bash
 # Dashboard uses mock data (immediate demo)
 curl http://localhost:8080  # Shows hardcoded driver data
@@ -79,7 +79,7 @@ curl http://localhost:5000/api/premium/calculate  # Real pricing engine
 
 **This is a standard industry pattern for demos and prototypes!** 
 
-## 📁 **Project Structure**
+## **Project Structure**
 
 ```
 telematics_insurance_system/
@@ -118,7 +118,7 @@ telematics_insurance_system/
 
 ```
 
-## 🚀 **Quick Start (5 Minutes to Running System)**
+## **Quick Start (5 Minutes to Running System)**
 
 1. **Clone the repository**
    ```bash
@@ -129,16 +129,16 @@ telematics_insurance_system/
   ```bash
   pip install -r requirements.txt
   ```
-### **🎨 OPTION 1: Demo Dashboard Only (Instant)**
+### ** OPTION 1: Demo Dashboard Only (Instant)**
 ```bash
 # Just see the UI with mock data (no setup needed)
 python bin/start_dashboard.py
 
 # Visit: http://localhost:8080
-# ✅ See complete dashboard with mock driver data
+# See complete dashboard with mock driver data
 ```
 
-### **🤖 OPTION 2: Full ML Pipeline (Complete System)**
+### ** OPTION 2: Full ML Pipeline (Complete System)**
 ```bash
 # 1. Setup environment
 python bin/setup.py
@@ -158,21 +158,21 @@ python bin/start_dashboard.py  # Terminal 2: Demo frontend
 # API: http://localhost:5000/api/health (Real ML backend)
 ```
 
-## 🧪 **Understanding the Two Systems**
+## **Understanding the Two Systems**
 
-### **🎨 Dashboard Testing (Mock Data)**
+### ** Dashboard Testing (Mock Data)**
 ```bash
 # Visit dashboard
 open http://localhost:8080
 
 # What you'll see:
-# ✅ Driver "John Smith" with consistent demo data
-# ✅ Safety score: 85, Premium: $650
-# ✅ Trip history, charts, achievements
-# ✅ All hardcoded for predictable demo
+# Driver "John Smith" with consistent demo data
+# Safety score: 85, Premium: $650
+# Trip history, charts, achievements
+# All hardcoded for predictable demo
 ```
 
-### **🤖 API Testing (Real ML)**
+### **API Testing (Real ML)**
 ```bash
 # Test real ML calculations
 curl http://localhost:5000/api/health
@@ -186,20 +186,20 @@ curl -X POST http://localhost:5000/api/premium/calculate \
 curl http://localhost:5000/api/driver/driver_001
 ```
 
-## 🔍 **Why This Architecture?**
+## **Why This Architecture?**
 
-### **✅ For Assessment/Demo Purposes:**
+### ** For Assessment/Demo Purposes:**
 1. **Immediate Demo:** Dashboard works instantly with mock data
 2. **Technical Proof:** Backend shows real ML capabilities  
 3. **No Dependencies:** Frontend doesn't require data generation
 4. **Comprehensive:** Shows both UI/UX design and technical depth
 
-### **✅ Industry Best Practice:**
+### ** Industry Best Practice:**
 - **Netflix:** Demo UI with sample content + Real recommendation engine
 - **Tesla:** Demo dashboard with test scenarios + Real autopilot system  
 - **Banking Apps:** Demo mode with fake transactions + Real processing backend
 
-## 🔗 **Connecting Frontend to Backend (Optional)**
+## **Connecting Frontend to Backend (Optional)**
 
 If you want the dashboard to use **real ML data** instead of mock data:
 
@@ -232,7 +232,7 @@ python bin/train_models.py --data data/samples/john_smith.csv
 # 4. Dashboard now shows real ML results instead of mock data
 ```
 
-## 🙏 Acknowledgments
+##Acknowledgments
 AI assistance was used to help with code completion, comments, and documentation (README and inline notes).  
 All core logic, system design, and implementation decisions were designed and created by me.
 
