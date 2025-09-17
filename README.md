@@ -1,4 +1,4 @@
-# 🚗 Telematics Insurance System - Complete Enterprise Solution
+# 🚗 Telematics Insurance System
 
 A complete, production-ready telematics-based auto insurance solution that accurately captures driving behavior and integrates into dynamic insurance pricing models. Features real-time data processing, advanced ML risk scoring, enterprise APIs, and comprehensive cloud infrastructure.
 
