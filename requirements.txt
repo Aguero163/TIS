@@ -1,0 +1,149 @@
+# Core Python Dependencies
+python>=3.8.0
+
+# Web Framework and API
+Flask==2.3.3
+Flask-CORS==4.0.0
+Flask-Limiter==3.5.0
+gunicorn==21.2.0
+
+# Data Processing and Analysis
+pandas==2.1.1
+numpy==1.24.3
+scipy==1.11.3
+scikit-learn==1.3.0
+
+# Machine Learning and Deep Learning
+tensorflow==2.13.0
+torch==2.0.1
+xgboost==1.7.6
+lightgbm==4.1.0
+
+# Database and Caching
+psycopg2-binary==2.9.7
+redis==5.0.0
+SQLAlchemy==2.0.21
+
+# Authentication and Security
+PyJWT==2.8.0
+bcrypt==4.0.1
+cryptography==41.0.4
+python-jose==3.3.0
+
+# Streaming and Message Queues
+kafka-python==2.0.2
+boto3==1.28.62  # AWS SDK
+pika==1.3.2     # RabbitMQ
+
+# Geospatial and Location
+geopy==2.4.0
+Shapely==2.0.1
+geopandas==0.14.0
+
+# HTTP Requests and APIs
+requests==2.31.0
+aiohttp==3.8.6
+httpx==0.25.0
+
+# Data Validation and Serialization
+marshmallow==3.20.1
+pydantic==2.4.2
+jsonschema==4.19.1
+
+# Configuration and Environment
+python-dotenv==1.0.0
+PyYAML==6.0.1
+configparser==6.0.0
+
+# Testing Framework
+pytest==7.4.2
+pytest-cov==4.1.0
+pytest-mock==3.11.1
+pytest-asyncio==0.21.1
+
+# Development and Code Quality
+black==23.9.1
+flake8==6.1.0
+isort==5.12.0
+mypy==1.5.1
+
+# Documentation
+Sphinx==7.2.6
+sphinx-rtd-theme==1.3.0
+
+# Monitoring and Logging
+structlog==23.1.0
+prometheus-client==0.17.1
+sentry-sdk[flask]==1.32.0
+
+# Task Queue and Background Jobs
+celery==5.3.3
+kombu==5.3.2
+
+# Time and Date Handling
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Utilities and Helpers
+click==8.1.7
+tqdm==4.66.1
+joblib==1.3.2
+python-slugify==8.0.1
+
+# Enterprise Features
+ldap3==2.9.1          # LDAP authentication
+python-keycloak==3.7.0 # SSO integration
+paramiko==3.3.1       # SSH connections
+
+# Real-time Processing
+apache-kafka==2.0.2
+confluent-kafka==2.3.0
+streamz==0.6.4
+
+# Cloud and Orchestration
+kubernetes==28.1.0
+docker==6.1.3
+awscli==1.29.62
+
+# External Data Integration
+beautifulsoup4==4.12.2  # Web scraping
+lxml==4.9.3             # XML/HTML parsing
+xmltodict==0.13.0       # XML to dict conversion
+
+# API Documentation
+flask-restx==1.2.0
+apispec==6.3.0
+
+# Rate Limiting and Caching
+slowapi==0.1.9
+diskcache==5.6.3
+
+# Encryption and Hashing
+passlib==1.7.4
+argon2-cffi==23.1.0
+
+# WebSocket Support (for real-time updates)
+flask-socketio==5.3.6
+python-socketio==5.9.0
+
+# Background Task Processing
+rq==1.15.1
+schedule==1.2.0
+
+# Performance Monitoring
+py-spy==0.3.14
+memory-profiler==0.61.0
+
+# Environment-specific dependencies
+# Development
+ipython==8.15.0
+jupyter==1.0.0
+matplotlib==3.7.2
+seaborn==0.12.2
+plotly==5.17.0
+
+# Production optimizations
+uvloop==0.17.0     # Faster event loop
+ujson==5.8.0       # Faster JSON processing
+orjson==3.9.7      # Even faster JSON
+cchardet==2.1.7    # Character encoding detection

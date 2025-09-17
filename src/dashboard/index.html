@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telematics Insurance - My Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- React and Babel (for development) -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .driver-metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .driver-metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-content h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .metric-content p {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .driver-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            background: white;
+        }
+
+        .driver-card .card-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 15px 15px 0 0;
+            font-weight: 600;
+        }
+
+        .risk-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .risk-circle.risk-low {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .risk-circle.risk-medium {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+        }
+
+        .risk-circle.risk-high {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+        }
+
+        .risk-score-value {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .risk-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .risk-low { background-color: #d4edda; color: #155724; }
+        .risk-medium { background-color: #fff3cd; color: #856404; }
+        .risk-high { background-color: #f8d7da; color: #721c24; }
+
+        .trips-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .trip-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.2s;
+        }
+
+        .trip-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .trip-item:last-child {
+            border-bottom: none;
+        }
+
+        .trip-distance {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .premium-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .navigation-tabs {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link.active {
+            background-color: #28a745;
+            color: white !important;
+        }
+
+        .nav-link:hover:not(.active) {
+            background-color: #f8f9fa;
+        }
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .metric-content h4 {
+                font-size: 1.5rem;
+            }
+
+            .risk-circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            .risk-score-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="dashboard-root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Mock driver data
+        const driverData = {
+            name: 'John Smith',
+            currentRiskScore: 0.25,
+            riskCategory: 'low',
+            safetyScore: 85,
+            currentPremium: 650,
+            premiumSavings: 150,
+            totalMiles: 8500,
+            tripsThisMonth: 24,
+            safetyStreak: 15,
+            achievements: ['Safe Driver', '1000 Miles', 'No Phone Usage', 'Low Risk Driver'],
+            recentTrips: [
+                { date: '2025-09-10', distance: 12.5, duration: 25, score: 90, incidents: 0 },
+                { date: '2025-09-09', distance: 8.2, duration: 18, score: 85, incidents: 1 },
+                { date: '2025-09-08', distance: 15.7, duration: 32, score: 95, incidents: 0 },
+                { date: '2025-09-07', distance: 6.3, duration: 12, score: 88, incidents: 0 },
+                { date: '2025-09-06', distance: 22.1, duration: 45, score: 78, incidents: 2 },
+                { date: '2025-09-05', distance: 18.3, duration: 38, score: 92, incidents: 0 },
+                { date: '2025-09-04', distance: 9.7, duration: 22, score: 87, incidents: 1 }
+            ],
+            monthlyTrends: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                riskScores: [0.45, 0.42, 0.38, 0.35, 0.32, 0.28, 0.26, 0.24, 0.25],
+                premiums: [800, 780, 750, 720, 690, 670, 660, 655, 650]
+            },
+            recommendations: [
+                { type: 'success', message: '🎉 Great job! Your night driving has improved by 20%' },
+                { type: 'warning', message: '⚠️ Try to reduce harsh braking - detected 3 events this week' },
+                { type: 'info', message: '💡 You could save $50 more by reducing highway speeds by 5mph' }
+            ]
+        };
+
+        // Risk Badge Component
+        function RiskBadge({ risk }) {
+            const riskClass = `risk-${risk}`;
+            return <span className={`risk-badge ${riskClass}`}>{risk} Risk</span>;
+        }
+
+        // Progress Chart Component
+        function ProgressChart({ data }) {
+            const chartRef = React.useRef(null);
+            const chartInstance = React.useRef(null);
+
+            useEffect(() => {
+                if (!data || !chartRef.current) return;
+
+                if (chartInstance.current) {
+                    chartInstance.current.destroy();
+                }
+
+                const ctx = chartRef.current.getContext('2d');
+                chartInstance.current = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [
+                            {
+                                label: 'Safety Score',
+                                data: data.riskScores.map(score => (1 - score) * 100),
+                                borderColor: '#28a745',
+                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                tension: 0.4,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Monthly Premium ($)',
+                                data: data.premiums.map(premium => premium / 12),
+                                borderColor: '#007bff',
+                                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                                tension: 0.4,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Safety Score'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Monthly Premium ($)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false,
+                                }
+                            }
+                        }
+                    }
+                });
+
+                return () => {
+                    if (chartInstance.current) {
+                        chartInstance.current.destroy();
+                    }
+                };
+            }, [data]);
+
+            return <canvas ref={chartRef} height="400"></canvas>;
+        }
+
+        // Main Dashboard Component
+        function TelematicsDriverDashboard() {
+            const [activeTab, setActiveTab] = useState('dashboard');
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                // Simulate loading
+                setTimeout(() => setLoading(false), 1500);
+            }, []);
+
+            if (loading) {
+                return (
+                    <div className="loading-spinner">
+                        <div className="spinner-border text-success" style={{width: '3rem', height: '3rem'}}>
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                );
+            }
+
+            const renderContent = () => {
+                switch (activeTab) {
+                    case 'dashboard':
+                        return <DashboardTab />;
+                    case 'trips':
+                        return <TripsTab />;
+                    case 'premium':
+                        return <PremiumTab />;
+                    case 'achievements':
+                        return <AchievementsTab />;
+                    default:
+                        return <DashboardTab />;
+                }
+            };
+
+            return (
+                <div>
+                    {/* Header */}
+                    <div className="dashboard-header">
+                        <div className="container">
+                            <div className="row align-items-center">
+                                <div className="col-md-8">
+                                    <h1>🚗 My Telematics Insurance</h1>
+                                    <p className="mb-0">Welcome back, {driverData.name}! Here's your driving performance overview</p>
+                                </div>
+                                <div className="col-md-4">
+                                    <div className="premium-display">
+                                        <small className="text-muted">Monthly Premium</small>
+                                        <h3 className="text-white">${Math.round(driverData.currentPremium/12)}</h3>
+                                        <small className="text-white">💰 Saving ${Math.round(driverData.premiumSavings/12)}/month</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="container">
+                        {/* Navigation Tabs */}
+                        <div className="navigation-tabs">
+                            <ul className="nav nav-pills nav-justified">
+                                <li className="nav-item">
+                                    <button 
+                                        className={`nav-link ${activeTab === 'dashboard' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('dashboard')}
+                                    >
+                                        📊 My Dashboard
+                                    </button>
+                                </li>
+                                <li className="nav-item">
+                                    <button 
+                                        className={`nav-link ${activeTab === 'trips' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('trips')}
+                                    >
+                                        🚗 My Trips
+                                    </button>
+                                </li>
+                                <li className="nav-item">
+                                    <button 
+                                        className={`nav-link ${activeTab === 'premium' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('premium')}
+                                    >
+                                        💰 My Premium
+                                    </button>
+                                </li>
+                                <li className="nav-item">
+                                    <button 
+                                        className={`nav-link ${activeTab === 'achievements' ? 'active' : ''}`}
+                                        onClick={() => setActiveTab('achievements')}
+                                    >
+                                        🏆 Achievements
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Content */}
+                        {renderContent()}
+                    </div>
+                </div>
+            );
+        }
+
+        // Dashboard Tab
+        function DashboardTab() {
+            return (
+                <div>
+                    {/* Key Metrics */}
+                    <div className="row">
+                        <div className="col-md-3 col-sm-6">
+                            <div className="driver-metric-card">
+                                <div className="metric-icon">🛡️</div>
+                                <div className="metric-content">
+                                    <h4>{driverData.safetyScore}</h4>
+                                    <p>Safety Score</p>
+                                    <small className="text-success">↗ +5 this month</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-sm-6">
+                            <div className="driver-metric-card">
+                                <div className="metric-icon">🚗</div>
+                                <div className="metric-content">
+                                    <h4>{driverData.tripsThisMonth}</h4>
+                                    <p>Trips This Month</p>
+                                    <small className="text-muted">{driverData.totalMiles.toLocaleString()} total miles</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-sm-6">
+                            <div className="driver-metric-card">
+                                <div className="metric-icon">🔥</div>
+                                <div className="metric-content">
+                                    <h4>{driverData.safetyStreak}</h4>
+                                    <p>Safe Days Streak</p>
+                                    <small className="text-warning">Keep it up!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-sm-6">
+                            <div className="driver-metric-card">
+                                <div className="metric-icon">💰</div>
+                                <div className="metric-content">
+                                    <h4>${driverData.premiumSavings}</h4>
+                                    <p>Annual Savings</p>
+                                    <small className="text-success">vs. traditional pricing</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {/* Risk Score */}
+                        <div className="col-md-4">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>📊 Your Risk Score</h5>
+                                </div>
+                                <div className="card-body text-center">
+                                    <div className={`risk-circle risk-${driverData.riskCategory}`}>
+                                        <div className="risk-score-value">
+                                            {Math.round((1 - driverData.currentRiskScore) * 100)}
+                                        </div>
+                                        <small>Safety Score</small>
+                                    </div>
+                                    <RiskBadge risk={driverData.riskCategory} />
+                                    <p className="text-muted mt-3">
+                                        You're a {driverData.riskCategory} risk driver. 
+                                        {driverData.riskCategory === 'low' && ' Keep up the excellent work!'}
+                                        {driverData.riskCategory === 'medium' && ' A few improvements could save you more!'}
+                                        {driverData.riskCategory === 'high' && ' Focus on safer driving habits.'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Progress Chart */}
+                        <div className="col-md-8">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>📈 Your Progress Over Time</h5>
+                                </div>
+                                <div className="card-body">
+                                    <ProgressChart data={driverData.monthlyTrends} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Recommendations */}
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>💡 Personalized Recommendations</h5>
+                                </div>
+                                <div className="card-body">
+                                    {driverData.recommendations.map((rec, index) => (
+                                        <div key={index} className={`alert alert-${rec.type === 'success' ? 'success' : rec.type === 'warning' ? 'warning' : 'info'} mb-2`}>
+                                            {rec.message}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Trips Tab
+        function TripsTab() {
+            return (
+                <div className="row">
+                    <div className="col-12">
+                        <div className="driver-card">
+                            <div className="card-header">
+                                <h5>🚗 Recent Trips</h5>
+                            </div>
+                            <div className="card-body">
+                                <div className="trips-list">
+                                    {driverData.recentTrips.map((trip, index) => (
+                                        <div key={index} className="trip-item">
+                                            <div className="row align-items-center">
+                                                <div className="col-md-2">
+                                                    <strong>{new Date(trip.date).toLocaleDateString()}</strong>
+                                                    <br />
+                                                    <small className="text-muted">{trip.duration} minutes</small>
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <span className="trip-distance">{trip.distance} miles</span>
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <div>
+                                                        Score: <strong className={trip.score >= 90 ? 'text-success' : trip.score >= 80 ? 'text-warning' : 'text-danger'}>
+                                                            {trip.score}
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    {trip.incidents === 0 ? (
+                                                        <span className="badge bg-success">✅ Clean Trip</span>
+                                                    ) : (
+                                                        <span className="badge bg-warning">⚠️ {trip.incidents} incidents</span>
+                                                    )}
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <small className="text-muted">
+                                                        {trip.score >= 90 ? '🏆 Excellent driving!' : 
+                                                         trip.score >= 80 ? '👍 Good performance' : '⚠️ Room for improvement'}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Premium Tab
+        function PremiumTab() {
+            const basePremium = 800;
+            const finalPremium = driverData.currentPremium;
+            const riskMultiplier = 0.8;
+            const mileageAdjustment = 0.9;
+
+            return (
+                <div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>💰 Your Current Premium</h5>
+                                </div>
+                                <div className="card-body text-center">
+                                    <div className={`risk-circle`} style={{
+                                        backgroundColor: driverData.riskCategory === 'low' ? '#2ecc71' : 
+                                                       driverData.riskCategory === 'medium' ? '#f39c12' : '#e74c3c'
+                                    }}>
+                                        <div>
+                                            <div>${Math.round(finalPremium/12)}</div>
+                                            <small>Per Month</small>
+                                        </div>
+                                    </div>
+                                    <RiskBadge risk={driverData.riskCategory} />
+                                    <p className="text-muted mt-2">
+                                        Your premium is based on your actual driving behavior
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-6">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>🔍 Premium Breakdown</h5>
+                                </div>
+                                <div className="card-body">
+                                    <h4>Annual Premium: <span className="text-success">${finalPremium}</span></h4>
+                                    <hr />
+                                    <div className="mb-2">
+                                        <strong>Base Premium:</strong> ${basePremium}
+                                        <small className="text-muted d-block">Standard rate for your profile</small>
+                                    </div>
+                                    <div className="mb-2">
+                                        <strong>Safe Driver Discount:</strong> {riskMultiplier}x
+                                        <small className="text-success d-block">🎉 You're saving money!</small>
+                                    </div>
+                                    <div className="mb-2">
+                                        <strong>Mileage Adjustment:</strong> {mileageAdjustment}x
+                                        <small className="text-muted d-block">Based on miles driven</small>
+                                    </div>
+                                    <hr />
+                                    <div className="text-success">
+                                        <strong>Total Savings: ${800 - finalPremium} annually</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>💡 How to Save Even More</h5>
+                                </div>
+                                <div className="card-body">
+                                    <div className="row text-center">
+                                        <div className="col-md-4">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">🚗</div>
+                                                <h6>Drive Less</h6>
+                                                <p className="text-muted small">Every 1,000 miles less can save you $15-30 annually</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">🛡️</div>
+                                                <h6>Drive Safer</h6>
+                                                <p className="text-muted small">Avoid harsh braking and acceleration events</p>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">🌙</div>
+                                                <h6>Avoid Night Driving</h6>
+                                                <p className="text-muted small">Nighttime driving increases risk and premiums</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Achievements Tab
+        function AchievementsTab() {
+            return (
+                <div>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>🏆 Your Achievements</h5>
+                                </div>
+                                <div className="card-body">
+                                    <div className="achievements-list">
+                                        {driverData.achievements.map((achievement, index) => (
+                                            <div key={index} className="achievement-badge">
+                                                🏅 {achievement}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-6">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>📱 Real-time Feedback</h5>
+                                </div>
+                                <div className="card-body">
+                                    <div className="alert alert-info">
+                                        <h6>🚀 Mobile App Features</h6>
+                                        <ul className="mb-2">
+                                            <li><strong>Live Speed Alerts:</strong> Real-time notifications when exceeding speed limits</li>
+                                            <li><strong>Harsh Event Detection:</strong> Immediate alerts for sudden braking or acceleration</li>
+                                            <li><strong>Distraction Warnings:</strong> Phone usage and attention monitoring</li>
+                                            <li><strong>Route Optimization:</strong> Safer route suggestions based on traffic and weather</li>
+                                        </ul>
+                                        <button className="btn btn-success btn-sm">📲 Download Mobile App</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="driver-card">
+                                <div className="card-header">
+                                    <h5>🎯 Next Goals</h5>
+                                </div>
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-3 text-center">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">🎖️</div>
+                                                <h6>30-Day Streak</h6>
+                                                <div className="progress">
+                                                    <div className="progress-bar bg-success" style={{width: '50%'}}></div>
+                                                </div>
+                                                <small>15/30 days</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3 text-center">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">🚗</div>
+                                                <h6>5K Miles Safe</h6>
+                                                <div className="progress">
+                                                    <div className="progress-bar bg-info" style={{width: '80%'}}></div>
+                                                </div>
+                                                <small>4,200/5,000 miles</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3 text-center">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">⭐</div>
+                                                <h6>Perfect Week</h6>
+                                                <div className="progress">
+                                                    <div className="progress-bar bg-warning" style={{width: '70%'}}></div>
+                                                </div>
+                                                <small>5/7 perfect days</small>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3 text-center">
+                                            <div className="p-3">
+                                                <div className="fs-1 mb-2">🏁</div>
+                                                <h6>Speed Master</h6>
+                                                <div className="progress">
+                                                    <div className="progress-bar bg-danger" style={{width: '90%'}}></div>
+                                                </div>
+                                                <small>90% speed compliance</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render the App
+        ReactDOM.render(<TelematicsDriverDashboard />, document.getElementById('dashboard-root'));
+    </script>
+</body>
+</html>
