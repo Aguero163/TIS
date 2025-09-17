@@ -194,7 +194,7 @@ curl http://localhost:5000/api/driver/driver_001
 3. **No Dependencies:** Frontend doesn't require data generation
 4. **Comprehensive:** Shows both UI/UX design and technical depth
 
-### ** Industry Best Practice:**
+### **Industry Best Practice:**
 - **Netflix:** Demo UI with sample content + Real recommendation engine
 - **Tesla:** Demo dashboard with test scenarios + Real autopilot system  
 - **Banking Apps:** Demo mode with fake transactions + Real processing backend
@@ -232,7 +232,7 @@ python bin/train_models.py --data data/samples/john_smith.csv
 # 4. Dashboard now shows real ML results instead of mock data
 ```
 
-##Acknowledgments
+## Acknowledgments
 AI assistance was used to help with code completion, comments, and documentation (README and inline notes).  
 All core logic, system design, and implementation decisions were designed and created by me.
 
