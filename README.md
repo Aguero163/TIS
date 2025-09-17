@@ -125,8 +125,6 @@ telematics_insurance_system/
    git clone https://github.com/Aguero163/TIS.git
    cd TIS
    ```
-   ```bash
-  
 2. **Install Requiremnts**
   ```bash
   pip install -r requirements.txt
