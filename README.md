@@ -1,10 +1,5 @@
 # 🚗 Telematics Insurance System - Complete Enterprise Solution
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
-[![Docker](https://img.shields.io/badge/Docker-Ready-brightgreen.svg)](https://docker.com)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-Supported-326CE5.svg)](https://kubernetes.io)
-[![AWS](https://img.shields.io/badge/AWS-Cloud%20Ready-orange.svg)](https://aws.amazon.com)
-
 A complete, production-ready telematics-based auto insurance solution that accurately captures driving behavior and integrates into dynamic insurance pricing models. Features real-time data processing, advanced ML risk scoring, enterprise APIs, and comprehensive cloud infrastructure.
 
 ## 🎯 **Project Overview**
@@ -227,18 +222,6 @@ python bin/train_models.py --data data/samples/john_smith.csv
 # 3. Modify dashboard to call API
 # 4. Dashboard now shows real ML results instead of mock data
 ```
-
-## 🎯 **Summary**
-
-- **✅ YES, this architecture is perfect for the assessment**
-- **✅ Frontend shows user experience (mock data for reliability)**  
-- **✅ Backend proves technical capability (real ML for validation)**
-- **✅ Industry standard approach for demos and prototypes**
-
-The separation allows evaluators to:
-1. **Quickly see the UI** without technical setup
-2. **Deep dive into ML** if they want technical validation  
-3. **Understand both** user needs and technical implementation
 
 ## 🙏 Acknowledgments
 AI assistance was used to help with code completion, comments, and documentation (README and inline notes).  
