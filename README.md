@@ -129,7 +129,7 @@ telematics_insurance_system/
   ```bash
   pip install -r requirements.txt
   ```
-### ** OPTION 1: Demo Dashboard Only (Instant)**
+### **OPTION 1: Demo Dashboard Only (Instant)**
 ```bash
 # Just see the UI with mock data (no setup needed)
 python bin/start_dashboard.py
@@ -138,7 +138,7 @@ python bin/start_dashboard.py
 # See complete dashboard with mock driver data
 ```
 
-### ** OPTION 2: Full ML Pipeline (Complete System)**
+### **OPTION 2: Full ML Pipeline (Complete System)**
 ```bash
 # 1. Setup environment
 python bin/setup.py
@@ -160,7 +160,7 @@ python bin/start_dashboard.py  # Terminal 2: Demo frontend
 
 ## **Understanding the Two Systems**
 
-### ** Dashboard Testing (Mock Data)**
+### **Dashboard Testing (Mock Data)**
 ```bash
 # Visit dashboard
 open http://localhost:8080
@@ -188,7 +188,7 @@ curl http://localhost:5000/api/driver/driver_001
 
 ## **Why This Architecture?**
 
-### ** For Assessment/Demo Purposes:**
+### **For Assessment/Demo Purposes:**
 1. **Immediate Demo:** Dashboard works instantly with mock data
 2. **Technical Proof:** Backend shows real ML capabilities  
 3. **No Dependencies:** Frontend doesn't require data generation
