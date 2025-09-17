@@ -126,9 +126,11 @@ telematics_insurance_system/
    cd TIS
    ```
    ```bash
-2. pip install -r requirements.txt
-   ```
-   
+  
+2. **Install Requiremnts**
+  ```bash
+  pip install -r requirements.txt
+  ```
 ### **🎨 OPTION 1: Demo Dashboard Only (Instant)**
 ```bash
 # Just see the UI with mock data (no setup needed)
